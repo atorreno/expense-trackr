@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Filter - jQuery Mobile Demos</title>
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="stylesheet" href="jqmobile/jquery.mobile-1.4.5.min.css">
+  <script src="js/dependencies/jquery.min.js"></script>
+  <script src="jqmobile/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+  <!--
+  http://www.gajotres.net/how-to-correctly-submit-form-data-in-jquery-mobile/
+-->
+<div role="main" class="ui-content jqm-content">
+
+  <form id="add-transaction" name="add-transaction" method="post" data-ajax="false">
+    <div data-role="fieldcontain" class="ui-hide-label">
+      <label for="transactionDate">Date</label>  
+      <input type="text" id="transactionDate" name="transactionDate" placeholder="Date">
+    </div>
+
+    <div data-role="fieldcontain" class="ui-hide-label">
+      <label for="amount">Amount</label>
+      <input id="amount" name="amount" placeholder="Amount">      
+    </div>
+
+    <div data-role="fieldcontain" class="ui-hide-label">
+      <label for="vendorID">Vendor ID</label>  
+      <input type="text" id="vendorID" name="vendorID" placeholder="Vendor ID">
+    </div>
+
+    <div data-role="fieldcontain" class="ui-hide-label">
+      <label for="paymentType">Payment Type</label>  
+      <input type="text" id="paymentType" name="paymentType" placeholder="Payment Type">
+    </div>
+
+    <div data-role="fieldcontain" class="ui-hide-label">
+      <label for="note">Note</label>  
+      <input type="text" id="note" name="note" placeholder="Note">
+    </div>
+
+    <input type="hidden" id="transactionTypeCode" name="transactionTypeCode" value="expense">
+    <input type="submit" value="Submit">
+  </form>
+  
+</div>
+
+
+<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="jqm-footer">
+  <p>atorreno</p>
+</div>
+
+<script>
+$(document).on('submit', '#add-transaction', function() {
+  $.ajax({url: '/Transaction',
+    data: $('#add-transaction').serializeArray(),
+    type: 'post',                  
+    async: 'true',
+    dataType: 'json',
+    beforeSend: function() {
+      $.mobile.loading('show'); // This will show ajax spinner
+    },
+    complete: function() {
+      // This callback function will trigger on data sent/received complete
+      $.mobile.loading('hide')// This will hide ajax spinner
+    },
+    success: function (result) {
+      if(result.createdAt) {
+        console.log('it worked!')                       
+      } else {
+        console.log('it didn\'t work!');
+      }
+    },
+    error: function (request,error) {
+      // This callback function will trigger on unsuccessful action               
+      console.log('Network error has occurred please try again!');
+    }
+  }); 
+  return false;
+});
+
+
+</script>
+</body>
+</html>

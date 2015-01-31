@@ -1,1 +1,3 @@
-# expense-trackr
+# expense-tracker2
+
+a [Sails](http://sailsjs.org) application
