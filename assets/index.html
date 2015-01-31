@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="jqmobile/jquery.mobile-1.4.5.min.css">
   <script src="js/dependencies/jquery.min.js"></script>
   <script src="jqmobile/jquery.mobile-1.4.5.min.js"></script>
+  <script src="js/dependencies/datehelpers.js"></script>
+  <script src="js/main.js"></script>
 </head>
 <body>
   <!--
@@ -18,7 +20,7 @@
   <form id="add-transaction" name="add-transaction" method="post" data-ajax="false">
     <div data-role="fieldcontain" class="ui-hide-label">
       <label for="transactionDate">Date</label>  
-      <input type="text" id="transactionDate" name="transactionDate" placeholder="Date">
+      <input type="datetime-local" id="transactionDate" name="transactionDate" placeholder="Date" value="">
     </div>
 
     <div data-role="fieldcontain" class="ui-hide-label">
