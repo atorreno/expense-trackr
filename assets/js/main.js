@@ -3,9 +3,6 @@ $(function(){
     $('#transactionDate').datetimepicker({
     	defaultDate: moment(),
         locale: 'en-ca'
-    })
-    .on('focus', function(){
-    	setTimeout(1, function(){$(this).blur()});
     });
 
 	$(document).on('submit', '#add-transaction', function() {
