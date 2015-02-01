@@ -24,10 +24,18 @@ var cssFilesToInject = [
 var jsFilesToInject = [
   
   // Load sails.io before everything else
-  'js/dependencies/sails.io.js',
+  //'js/dependencies/sails.io.js',
 
   // Dependencies like jQuery, or Angular are brought in here
   'js/dependencies/**/*.js',
+
+  'js/moment.min.js',
+
+  'js/bootstrap/bootstrap.min.js',
+
+  'js/bootstrap-datetimepicker.min.js',
+
+  'js/en-ca.js',
 
   // All of the rest of your client-side js files
   // will be injected here in no particular order.

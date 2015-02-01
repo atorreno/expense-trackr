@@ -33,5 +33,8 @@
     "url": "git@github.com:atorreno/expense-tracker.git"
   },
   "author": "atorreno",
-  "license": ""
+  "license": "",
+  "devDependencies": {
+    "bootstrap": "^3.3.2"
+  }
 }
