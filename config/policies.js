@@ -25,9 +25,13 @@ module.exports.policies = {
   * access)                                                                  *
   *                                                                          *
   ***************************************************************************/
+  AuthController: {
+    '*': true
+  },
+  
+   'HomeController': 'isAuthenticated'
 
-  // '*': true,
-
+  
   /***************************************************************************
   *                                                                          *
   * Here's an example of mapping some policies to run before a controller    *

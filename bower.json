@@ -16,5 +16,8 @@
   "dependencies": {
     "bootstrap": "~3.3.2",
     "eonasdan-bootstrap-datetimepicker": "~4.0.0"
+  },
+  "devDependencies": {
+    "validator-js": "~3.30.0"
   }
 }
