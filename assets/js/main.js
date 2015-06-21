@@ -1,7 +1,7 @@
 $(function(){
 	//initialize date field
     $('#transactionDate').datetimepicker({
-    	defaultDate: new Date().toString(),
+    	defaultDate: moment(),
         locale: 'en-ca'
     });
 
