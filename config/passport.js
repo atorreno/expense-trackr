@@ -16,7 +16,6 @@
 
 
 var passport = require('passport');
-var config = require('./local');
 module.exports.passport = {
 
   twitter: {
