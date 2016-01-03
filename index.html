@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+</head>
+<body>
+	<P>HELLO!</P>
+<div id="fb-root"></div>
+
+<div id="status">
+</div>
+
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button>
+
+<a href="javascript:;" onclick="fblogout()">logout</a>
+
+
+<a href="javacript:;" onclick="postExpense()">post</a>
+
+
+
+	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.2.22.min.js"></script>
+	<script src="js/amazon-cognito.min.js"></script>	
+    <script type="text/javascript" src="js/lib/axios/dist/axios.standalone.js"></script>
+<script type="text/javascript" src="js/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+<script type="text/javascript" src="js/lib/CryptoJS/rollups/sha256.js"></script>
+<script type="text/javascript" src="js/lib/CryptoJS/components/hmac.js"></script>
+<script type="text/javascript" src="js/lib/CryptoJS/components/enc-base64.js"></script>
+<script type="text/javascript" src="js/lib/url-template/url-template.js"></script>
+<script type="text/javascript" src="js/lib/apiGatewayCore/sigV4Client.js"></script>
+<script type="text/javascript" src="js/lib/apiGatewayCore/apiGatewayClient.js"></script>
+<script type="text/javascript" src="js/lib/apiGatewayCore/simpleHttpClient.js"></script>
+<script type="text/javascript" src="js/lib/apiGatewayCore/utils.js"></script>
+<script type="text/javascript" src="js/lib/moment/moment.js"></script>
+    <script src="js/apigClient.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script>
+
+
+
+
+    function initializeCognito(response, cb){
+        console.log('ready to init cognito');
+        console.log(response);
+        // Initialize the Amazon Cognito credentials provider
+        AWS.config.region = 'us-east-1'; // Region
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: 'us-east-1:611dd068-1081-4e5a-8712-dd43bdbc2f78',
+            Logins: {
+                'graph.facebook.com': response.authResponse.accessToken
+            }
+        });
+
+        FB.api('/me', function(response) {
+            document.getElementById('status').innerHTML =
+            'Thanks for logging in, ' + response.name + '!';
+
+            AWS.config.credentials.get(function(){
+                var syncClient = new AWS.CognitoSyncManager();
+                syncClient.openOrCreateDataset('userData', function(err, dataset) {
+                    console.log(response);
+                    dataset.put('userID', response.id, function(err, record){
+                        if (err) console.log(err) 
+                        else console.log(record);
+                        dataset.put ('Name', response.name, function (err, record){
+                            if (err) console.log(err)
+                            else console.log(record);
+                        })
+                    });
+
+                    dataset.synchronize({
+                        onSuccess: function(data, newRecords) {		                
+                            cb();
+                        },
+                        onFailure: function(err){
+                            console.log(err);
+                        },
+                        onConflict: function(dataset, conflicts, callback) {
+                            var resolved = [];
+                            for (var i=0; i<conflicts.length; i++) {
+                                resolved.push(conflicts[i].resolveWithLocalRecord());
+                            }
+
+                            dataset.resolve(resolved, function() {
+                                return callback(true);
+                            });
+                        }				      
+                    });
+                });	        
+            });
+        });
+	}
+
+	  // This is called with the results from from FB.getLoginStatus().
+	  function statusChangeCallback(response) {
+	    // The response object is returned with a status field that lets the
+	    // app know the current login status of the person.
+	    // Full docs on the response object can be found in the documentation
+	    // for FB.getLoginStatus().
+	    if (response.status === 'connected') {
+	      // Logged into your app and Facebook.
+	      initializeCognito(response, function(){
+
+	      });
+	    } else if (response.status === 'not_authorized') {
+	      // The person is logged into Facebook, but not your app.
+	      document.getElementById('status').innerHTML = 'Please log ' +
+	        'into this app.';
+	    } else {
+	      // The person is not logged into Facebook, so we're not sure if
+	      // they are logged into this app or not.
+	      document.getElementById('status').innerHTML = 'Please log ' +
+	        'into Facebook.';
+	    }
+	  }
+
+	  // This function is called when someone finishes with the Login
+	  // Button.  See the onlogin handler attached to it in the sample
+	  // code below.
+	  function checkLoginState() {
+	    FB.getLoginStatus(function(response) {
+	      statusChangeCallback(response);
+	    });
+	  }
+
+
+		window.fbAsyncInit = function() {
+			FB.init({
+			  appId      : '404573039733577',
+			  cookie     : true,
+			  xfbml      : true,
+			  version    : 'v2.5'
+			});
+
+			FB.getLoginStatus(function(response) {
+	    	statusChangeCallback(response);
+	  });
+		};	  
+
+	  // Now that we've initialized the JavaScript SDK, we call 
+	  // FB.getLoginStatus().  This function gets the state of the
+	  // person visiting this page and can return one of three states to
+	  // the callback you provide.  They can be:
+	  //
+	  // 1. Logged into your app ('connected')
+	  // 2. Logged into Facebook, but not your app ('not_authorized')
+	  // 3. Not logged into Facebook and can't tell if they are logged into
+	  //    your app or not.
+	  //
+	  // These three cases are handled in the callback function.
+
+      function fblogout(){
+            FB.logout(function(response) {
+              console.log('logged out');
+              document.getElementById('status').innerHTML = 'You are now logged out';
+            });
+      }
+
+	  // Load the SDK asynchronously
+	  (function(d, s, id) {
+	    var js, fjs = d.getElementsByTagName(s)[0];
+	    if (d.getElementById(id)) return;
+	    js = d.createElement(s); js.id = id;
+	    js.src = "//connect.facebook.net/en_US/sdk.js";
+	    fjs.parentNode.insertBefore(js, fjs);
+	  }(document, 'script', 'facebook-jssdk'));
+
+	  // Here we run a very simple test of the Graph API after login is
+	  // successful.  See statusChangeCallback() for when this call is made.
+	  function testAPI() {
+	    console.log('Welcome!  Fetching your information.... ');
+
+	  }
+
+      function postExpense(){
+
+        AWS.config.credentials.get(function(){
+
+            // Credentials will be available when this function is called.
+            var accessKeyId = AWS.config.credentials.accessKeyId;
+            var secretAccessKey = AWS.config.credentials.secretAccessKey;
+            var sessionToken = AWS.config.credentials.sessionToken;
+
+            console.log(accessKeyId);
+            console.log(secretAccessKey)
+            
+
+
+       var apigClient = apigClientFactory.newClient({
+          accessKey: accessKeyId,
+          secretKey: secretAccessKey,
+          sessionToken: sessionToken
+        });
+
+        var params = {
+        };
+
+        var body = {
+            'expenseID': '123123',
+            'expenseDate': '20150102',
+            'store' : 'some place',
+            'price': '5.99'
+        };
+
+        var additionalParams = {
+        };
+
+        apigClient.expensePost(params, body, additionalParams)
+            .then(function(result){
+              console.log('success!');
+            }).catch( function(result){
+              console.log(result);
+            });
+
+
+
+        });
+
+ 
+
+      }
+
+
+		// Make the call to obtain credentials
+		/*
+		AWS.config.credentials.get(function(){
+
+		    // Credentials will be available when this function is called.
+		    var accessKeyId = AWS.config.credentials.accessKeyId;
+		    var secretAccessKey = AWS.config.credentials.secretAccessKey;
+		    var sessionToken = AWS.config.credentials.sessionToken;
+
+		});*/
+
+
+
+	</script>
+
+</body>
+</html>
