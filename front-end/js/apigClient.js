@@ -91,6 +91,24 @@ apigClientFactory.newClient = function (config) {
     
     
     
+    apigClient.expenseGet = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var expenseGetRequest = {
+            verb: 'get'.toUpperCase(),
+            path: pathComponent + uritemplate('/expense').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(expenseGetRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
     apigClient.expensePost = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
@@ -124,6 +142,78 @@ apigClientFactory.newClient = function (config) {
         
         
         return apiGatewayClient.makeRequest(expenseOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.vendorGet = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var vendorGetRequest = {
+            verb: 'get'.toUpperCase(),
+            path: pathComponent + uritemplate('/vendor').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(vendorGetRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.vendorPut = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var vendorPutRequest = {
+            verb: 'put'.toUpperCase(),
+            path: pathComponent + uritemplate('/vendor').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(vendorPutRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.vendorPost = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var vendorPostRequest = {
+            verb: 'post'.toUpperCase(),
+            path: pathComponent + uritemplate('/vendor').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(vendorPostRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.vendorOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var vendorOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/vendor').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(vendorOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
 

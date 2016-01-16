@@ -3,21 +3,48 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-	<P>HELLO!</P>
-	<div id="fb-root"></div>
 
-	<div id="status">
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+
+			<div id="expenses">
+				<table class="table">
+					<thead>
+						<td>Date</td>
+						<td>Store</td>
+						<td>Price</td>
+						<td>Owner</td>
+						<td>Category</td>
+						<td>Sub-Category</td>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			
+
+			<div id="fb-root"></div>
+
+			<div id="status">
+			</div>
+
+			<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+			</fb:login-button>
+
+			<a href="javascript:;" onclick="fblogout()">logout</a>
+
+			
+		</div>
 	</div>
-
-	<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-	</fb:login-button>
-
-	<a href="javascript:;" onclick="fblogout()">logout</a>
+</div>
 
 
-	<a href="javacript:;" onclick="postExpense()">post</a>
+
 
 
 
@@ -34,9 +61,34 @@
 	<script type="text/javascript" src="js/lib/apiGatewayCore/simpleHttpClient.js"></script>
 	<script type="text/javascript" src="js/lib/apiGatewayCore/utils.js"></script>
 	<script type="text/javascript" src="js/lib/moment/moment.js"></script>
-	<script src="js/apigClient.js"></script>
+	<script type="text/javascript" src="js/apigClient.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="js/lib/serializeObject/jquery.serialize-object.min.js"></script>	
+	<script src="js/bootstrap.min.js"></script>
+	
 	<script>
+
+	function formatExpenseData(data){
+		if(typeof data === 'undefined' ){
+			return '';
+		} else {
+			return data;
+		}
+	}
+
+	function generateUUID(){
+		var d = new Date().getTime();
+		if(window.performance && typeof window.performance.now === "function"){
+			d += performance.now();; //use high-precision timer if available
+		}
+		var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = (d + Math.random()*16)%16 | 0;
+			d = Math.floor(d/16);
+			return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+		});
+		return uuid;
+	}
+
 
 	function initializeCognito(response, cb){
 		// Initialize the Amazon Cognito credentials provider
@@ -52,7 +104,10 @@
 			document.getElementById('status').innerHTML =
 			'Thanks for logging in, ' + response.name + '!';
 
+			window.expenseUser = response.name;
+
 			AWS.config.credentials.get(function(){
+				populateExpenses();
 				var syncClient = new AWS.CognitoSyncManager();
 				syncClient.openOrCreateDataset('userData', function(err, dataset) {
 					console.log(response);
@@ -135,11 +190,6 @@
 		});
 	};    
 
-	function fblogout(){
-		FB.logout(function(response) {
-			document.getElementById('status').innerHTML = 'You are now logged out';
-		});
-	}
 
 	// Load the SDK asynchronously
 	(function(d, s, id) {
@@ -151,7 +201,13 @@
 	}(document, 'script', 'facebook-jssdk'));
 
 
-	function postExpense(){
+	function populateExpenses(){
+		var expenses = [];
+
+		if (AWS.config.credentials == null){
+			alert('log into facebook!');
+			return;
+		}
 		AWS.config.credentials.get(function(){
 			// Credentials will be available when this function is called.
 			var accessKeyId = AWS.config.credentials.accessKeyId;
@@ -167,24 +223,39 @@
 			var params = {
 			};
 
-			var body = {
-				'expenseID': '123123',
-				'expenseDate': '20150102',
-				'store' : 'some place',
-				'price': '5.99'
+			var body = {	
 			};
+			//expenseID: "ce293ac8-5b22-477a-b73b-2cf8fce85799",
 
 			var additionalParams = {
+				queryParams:{
+					operation: "all"
+				}
 			};
 
-			apigClient.expensePost(params, body, additionalParams)
+			apigClient.expenseGet(params, body, additionalParams)
 				.then(function(result){
-					//update the UI
+
+					if (result.data && result.data.Items){
+						expenses = result.data.Items;
+
+						for(var i in expenses){
+							
+							$('#expenses table tbody').append('<tr><td>' + formatExpenseData(expenses[i].expenseDate) + '</td>' +
+								'<td>' + formatExpenseData(expenses[i].store) + '</td>' +
+								'<td>' + formatExpenseData(expenses[i].price) + '</td>' +
+								'<td>' + formatExpenseData(expenses[i].expenseUser) + '</td>' +
+								'<td>' + formatExpenseData(expenses[i].category) + '</td>' +
+								'<td>' + formatExpenseData(expenses[i].tag) + '</td></tr>');
+						}						
+					}							
 				}).catch( function(result){
 					//display error message
 				});
 		});
+	
 	}
+
 
 
 

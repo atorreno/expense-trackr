@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">	
+	<link href="css/select2.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+
+			<form id="form-expense">
+				<input type="hidden" name="expenseID" id="expenseID" value="">
+				<input type="hidden" name="expenseUser" id="expenseUser" value="">
+				<input type="hidden" name="expenseAction" id="expenseAction" value="post">
+
+				<div class="form-group">
+					<label for="expenseDate">Date</label>
+					<div class='input-group date' id='datetimepicker'>
+						<input type="text" class="form-control" name="expenseDate" id="expenseDate" />
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>					
+				</div>
+				<div class="form-group">
+					<label for="store">Vendor</label>
+					<select name="store" id="store" class="form-control"></select>					
+				</div>
+				<div class="form-group">
+					<label for="price">Price</label>
+					<input type="number" step="0.01" name="price" class="form-control" placeholder="Price" id="price">
+				</div>
+				<div class="form-group">
+					<label>Category</label>
+					<div class="radio">
+						<label>
+							<input type="radio" name="category" id="categorydaddy" value="Daddy">
+							Daddy
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="category" id="categorymommy" value="Mommy">
+							Mommy
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="category" id="categoryfamily" value="Family">
+							Family
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="category" id="categorykaiya" value="Kaiya">
+							Kaiya
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="category" id="categorygroceries" value="Groceries">
+							Groceries
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label>Sub-Category</label>
+					<div class="row">
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="tagdiningout" value="Dining Out">
+									Dining Out
+								</label>
+							</div>							
+						</div>
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="tagpersonal" value="Personal">
+									Personal
+								</label>
+							</div>							
+						</div>
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="tagentertainment" value="Entertainment">
+									Entertainment
+								</label>
+							</div>							
+						</div>
+					</div>		
+					<div class="row">
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="tagcomputer" value="Computer Stuff">
+									Computer Stuff
+								</label>
+							</div>							
+						</div>
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="tagtransportation" value="Transportation">
+							Transportation
+								</label>
+							</div>							
+						</div>
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="taggifts" value="Gifts">
+							Gifts
+								</label>
+							</div>							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="taggroceries" value="Grocery">
+							Grocery
+								</label>
+							</div>							
+						</div>
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="tagparking" value="Parking">
+							Parking
+								</label>
+							</div>							
+						</div>
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="tagtreats" value="Treats">
+							Treats
+								</label>
+							</div>							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="tagclothing" value="Clothing">
+							Clothing
+								</label>
+							</div>							
+						</div>
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="tagsafety" value="Safety">
+							Safety
+								</label>
+							</div>							
+						</div>
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="tagschool" value="School">
+									School
+								</label>
+							</div>							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="taghaircuts" value="Haircuts">
+									Haircuts
+								</label>
+							</div>							
+						</div>
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="tagdance" value="Dance">
+									Dance
+								</label>
+							</div>							
+						</div>
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="tagchristmas" value="Christmas">
+									Christmas
+								</label>
+							</div>							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="tagswimming" value="Swimming">
+									Swimming
+								</label>
+							</div>							
+						</div>
+						<div class="col-xs-3">
+							<div class="radio">
+								<label>
+									<input type="radio" name="tag" id="tagcelebrations" value="Celebrations">
+									Celebrations
+								</label>
+							</div>							
+						</div>
+						
+					</div>
+
+
+
+					<div class="radio-inline">
+						<label>
+							
+						</label>
+					</div>
+					<div class="radio-inline">
+						<label>
+							
+						</label>
+					</div>
+					<div class="radio-inline">
+						<label>
+							
+						</label>
+					</div>
+					<div class="radio-inline">
+						<label>
+							
+						</label>
+					</div>					
+					<div class="radio-inline">
+						<label>
+							
+						</label>
+					</div>
+					<div class="radio-inline">
+						<label>
+							
+						</label>
+					</div>
+					<div class="radio-inline">
+						<label>
+							
+						</label>
+					</div>
+				</div>
+
+				
+
+				<button type="submit" class="btn btn-default">Submit</button>
+				<button type="reset" class="btn btn-default">Reset</button>
+			</form>
+
+
+			<div id="fb-root"></div>
+
+			<div id="status">
+			</div>
+
+			<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+			</fb:login-button>
+
+			
+		</div>
+	</div>
+</div>
+
+
+
+
+
+	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.2.22.min.js"></script>
+	<script src="js/amazon-cognito.min.js"></script>    
+	<script type="text/javascript" src="js/lib/axios/dist/axios.standalone.js"></script>
+	<script type="text/javascript" src="js/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+	<script type="text/javascript" src="js/lib/CryptoJS/rollups/sha256.js"></script>
+	<script type="text/javascript" src="js/lib/CryptoJS/components/hmac.js"></script>
+	<script type="text/javascript" src="js/lib/CryptoJS/components/enc-base64.js"></script>
+	<script type="text/javascript" src="js/lib/url-template/url-template.js"></script>
+	<script type="text/javascript" src="js/lib/apiGatewayCore/sigV4Client.js"></script>
+	<script type="text/javascript" src="js/lib/apiGatewayCore/apiGatewayClient.js"></script>
+	<script type="text/javascript" src="js/lib/apiGatewayCore/simpleHttpClient.js"></script>
+	<script type="text/javascript" src="js/lib/apiGatewayCore/utils.js"></script>
+	<script type="text/javascript" src="js/lib/moment/moment.js"></script>
+	<script type="text/javascript" src="js/apigClient.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="js/lib/serializeObject/jquery.serialize-object.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/lib/datepicker/bootstrap-datetimepicker.min.js"></script>
+	<script src="js/lib/select2/select2.min.js"></script>
+	
+	<script>
+
+	function generateUUID(){
+		var d = new Date().getTime();
+		if(window.performance && typeof window.performance.now === "function"){
+			d += performance.now();; //use high-precision timer if available
+		}
+		var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = (d + Math.random()*16)%16 | 0;
+			d = Math.floor(d/16);
+			return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+		});
+		return uuid;
+	}
+
+	function getParameterByName(name) {
+		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+			results = regex.exec(location.search);
+		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+
+
+	function initializeCognito(response, cb){
+		// Initialize the Amazon Cognito credentials provider
+		AWS.config.region = 'us-east-1'; // Region
+		AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+			IdentityPoolId: 'us-east-1:611dd068-1081-4e5a-8712-dd43bdbc2f78',
+			Logins: {
+				'graph.facebook.com': response.authResponse.accessToken
+			}
+		});
+
+		FB.api('/me', function(response) {
+			document.getElementById('status').innerHTML =
+			'Thanks for logging in, ' + response.name + '!';
+
+			window.expenseUser = response.name;
+
+			AWS.config.credentials.get(function(){
+				var syncClient = new AWS.CognitoSyncManager();
+				syncClient.openOrCreateDataset('userData', function(err, dataset) {
+					console.log(response);
+					dataset.put('userID', response.id, function(err, record){
+						if (err) {
+							console.log(err);
+						}
+						else {
+							console.log(record);
+						}
+						dataset.put ('Name', response.name, function (err, record){
+							if (err) {
+								console.log(err);
+							}
+							else {
+								console.log(record);
+							}
+						});
+					});
+
+					dataset.synchronize({
+						onSuccess: function(data, newRecords) {                     
+							cb();
+						},
+						onFailure: function(err){
+							console.log(err);
+						},
+						onConflict: function(dataset, conflicts, callback) {
+							var resolved = [];
+							for (var i=0; i<conflicts.length; i++) {
+								resolved.push(conflicts[i].resolveWithLocalRecord());
+							}
+
+							dataset.resolve(resolved, function() {
+								return callback(true);
+							});
+						}                     
+					});
+
+					//if this is an edit instead of an add, prepopulate 
+					//the fields, and set a flag so we know this is a put
+					//instead of a post
+
+					var expenseID = getParameterByName('expenseID');
+
+					if (expenseID != ''){
+							var accessKeyId = AWS.config.credentials.accessKeyId;
+							var secretAccessKey = AWS.config.credentials.secretAccessKey;
+							var sessionToken = AWS.config.credentials.sessionToken;
+							
+							var apigClient = apigClientFactory.newClient({
+								accessKey: accessKeyId,
+								secretKey: secretAccessKey,
+								sessionToken: sessionToken
+							});
+
+							var params = {
+							};
+
+							var body = {};
+
+							var additionalParams = {
+								queryParams:{
+									operation: "one",
+									expenseID: expenseID
+								}
+							};
+
+							apigClient.expenseGet(params, body, additionalParams)
+								.then(function(result){
+									console.log('success!');
+									console.log(result);
+									var expense = result.data.Items[0];
+									console.log(expense);
+									$('#expenseID').val(expense.expenseID);
+									$('#expenseUser').val(expense.expenseUser);
+									$('#expenseDate').val(expense.expenseDate);
+									$('#price').val(expense.price);
+									$(":radio[value=" + expense.category + "]").attr('checked',true);
+									$(":radio[value='" + expense.tag + "']").attr('checked',true);
+									$("#expenseAction").val('put');
+
+
+								}).catch( function(result){
+									//display error message
+								});
+					}
+
+
+				});         
+			});
+		});
+	}
+
+	// This is called with the results from from FB.getLoginStatus().
+	function statusChangeCallback(response) {
+		if (response.status === 'connected') {
+			// Logged into your app and Facebook.
+			initializeCognito(response, function(){
+			});
+		} else if (response.status === 'not_authorized') {
+			// The person is logged into Facebook, but not your app.
+			document.getElementById('status').innerHTML = 'Please log into this app.';
+		} else {
+			// The person is not logged into Facebook, so we're not sure if
+			// they are logged into this app or not.
+			document.getElementById('status').innerHTML = 'Please log into Facebook.';
+		}
+	}
+
+	// This function is called when someone finishes with the Login
+	// Button.  See the onlogin handler attached to it in the sample
+	// code below.
+	function checkLoginState() {
+		FB.getLoginStatus(function(response) {
+			statusChangeCallback(response);
+		});
+	}
+
+
+	window.fbAsyncInit = function() {
+		FB.init({
+		  appId      : '404573039733577',
+		  cookie     : true,
+		  xfbml      : true,
+		  version    : 'v2.5'
+		});
+
+		FB.getLoginStatus(function(response) {
+			statusChangeCallback(response);
+		});
+	};    
+
+
+	// Load the SDK asynchronously
+	(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) return;
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/en_US/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+
+
+	$('#form-expense').on('submit', function(event){
+		event.preventDefault();
+		$('#expenseID').val(generateUUID());
+		$('#expenseUser').val(window.expenseUser);
+		//TODO validate
+		var payload = $(this).serializeObject();
+
+		//if this is new, use post
+		if ($('#expenseAction').val() == 'post'){
+			postExpense(payload);
+		} else { //else, put
+			putExpense(payload);	
+		}
+		
+	});
+
+
+	function postExpense(payload){
+		if (AWS.config.credentials == null){
+			alert('log into facebook!');
+			return;
+		}
+		AWS.config.credentials.get(function(){
+			// Credentials will be available when this function is called.
+			var accessKeyId = AWS.config.credentials.accessKeyId;
+			var secretAccessKey = AWS.config.credentials.secretAccessKey;
+			var sessionToken = AWS.config.credentials.sessionToken;
+			
+			var apigClient = apigClientFactory.newClient({
+				accessKey: accessKeyId,
+				secretKey: secretAccessKey,
+				sessionToken: sessionToken
+			});
+
+			var params = {
+			};
+
+			var body = payload;
+			console.log(body);
+
+			var additionalParams = {
+			};
+
+			apigClient.expensePost(params, body, additionalParams)
+				.then(function(result){
+					console.log('success!');
+					$('#status').html('successfully posted expense!')
+				}).catch( function(result){
+					//display error message
+				});
+		});
+	}
+
+	function putExpense(payload){
+		if (AWS.config.credentials == null){
+			alert('log into facebook!');
+			return;
+		}
+		AWS.config.credentials.get(function(){
+			// Credentials will be available when this function is called.
+			var accessKeyId = AWS.config.credentials.accessKeyId;
+			var secretAccessKey = AWS.config.credentials.secretAccessKey;
+			var sessionToken = AWS.config.credentials.sessionToken;
+			
+			var apigClient = apigClientFactory.newClient({
+				accessKey: accessKeyId,
+				secretKey: secretAccessKey,
+				sessionToken: sessionToken
+			});
+
+			var params = {
+			};
+
+			var body = payload;
+			console.log(body);
+
+			var additionalParams = {
+			};
+
+			apigClient.expensePut(params, body, additionalParams)
+				.then(function(result){
+					console.log('success!!!');
+					$('#status').html('successfully put expense!')
+				}).catch( function(result){
+					//display error message
+				});
+		});
+	}	
+
+	function initSelect2Data(data){
+		var select2Data = [];
+
+		for(var i in data){
+			select2Data.push({
+				id: data[i].name,
+				text: data[i].name
+			})
+		}
+
+		return select2Data;
+
+	}
+
+	$(function () {
+		var vendors = [];
+
+		$('#datetimepicker').datetimepicker({
+			defaultDate: new Date()
+		});
+
+		var apigClient = apigClientFactory.newClient();
+		apigClient.vendorGet({}, {}, {})
+			.then(function(result){
+				if (result.data && result.data.Items){
+					vendors = initSelect2Data(result.data.Items);
+					$('#store').select2({
+						data:vendors
+					});				
+				}
+			}).catch(function(result){
+				console.log('error')
+			});
+
+
+
+
+	});
+
+
+
+</script>
+
+</body>
+</html>
