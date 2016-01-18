@@ -422,6 +422,7 @@
 									$('#expenseUser').val(expense.expenseUser);
 									$('#expenseDate').val(expense.expenseDate);
 									$('#price').val(expense.price);
+									$('#store').select2().val(expense.store).trigger('change');
 									$(":radio[value=" + expense.category + "]").attr('checked',true);
 									$(":radio[value='" + expense.tag + "']").attr('checked',true);
 									$("#expenseAction").val('put');
@@ -489,14 +490,15 @@
 
 
 	$('#form-expense').on('submit', function(event){
-		event.preventDefault();
-		$('#expenseID').val(generateUUID());
+		event.preventDefault();		
 		$('#expenseUser').val(window.expenseUser);
 		//TODO validate
 		var payload = $(this).serializeObject();
+		var action = $('#expenseAction').val() ;
 
 		//if this is new, use post
-		if ($('#expenseAction').val() == 'post'){
+		if (action == 'post'){
+			$('#expenseID').val(generateUUID());
 			postExpense(payload);
 		} else { //else, put
 			putExpense(payload);	
@@ -526,6 +528,7 @@
 			};
 
 			var body = payload;
+			delete body.expenseAction;
 			console.log(body);
 
 			var additionalParams = {
@@ -562,6 +565,7 @@
 			};
 
 			var body = payload;
+			delete body.expenseAction;
 			console.log(body);
 
 			var additionalParams = {

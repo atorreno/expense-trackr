@@ -109,6 +109,24 @@ apigClientFactory.newClient = function (config) {
     };
     
     
+    apigClient.expensePut = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var expensePutRequest = {
+            verb: 'put'.toUpperCase(),
+            path: pathComponent + uritemplate('/expense').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(expensePutRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
     apigClient.expensePost = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
